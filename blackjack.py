@@ -1,9 +1,8 @@
 import random
 
 
-# def get_hand(player, hand):
-#     return 'Your hand is : ' + hand
-
+cards ={'A':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':10,'Q':10,'K':10}
+#Check if the current player hand is > 21
 def check_player_bust(player_hand):
     player_value = 0
     for x in player_hand:
@@ -13,14 +12,16 @@ def check_player_bust(player_hand):
     else: 
         return False
 
+#Check if the current dealer hand is > 21
 def check_dealer_bust(dealer_hand):
     dealer_value = 0
     for x in dealer_hand:
-        dealer_value +=  cards[x]
+        dealer_value += cards[x]
     if dealer_value > 21: 
         return True
     else: 
         return False
+
 
 def get_player_hand_sum(hand):
     value = 0
@@ -75,6 +76,11 @@ def check_win(player_hand,dealer_hand):
     else: 
         return "NA"
 
+def check_tie(player_hand,dealer_hand):
+    if get_hand_sum(dealer_hand) == get_hand_sum(player_hand):
+        return "Tie"
+    else: 
+        return "NA"
   
 
 
@@ -90,22 +96,26 @@ def play_blackjack():
     player_hand, dealer_hand = deal_two_cards(player_hand,dealer_hand)    
     
     while play:
-        # Check if player Busted
+        # Check if player Busted after iniial draw
         if check_player_bust(player_hand):
             play = False
             return print('Player Busted!! Dealer Wins!')
         
-        # Check if dealer busted
+        # Check if dealer busted after initial draw
         if check_dealer_bust(dealer_hand):
             play = False
             return print('Dealer Busted!! Player Wins!')
 
         print(f'Dealer, your visible cards is {dealer_hand}')
         print(f'Player, your cards are {player_hand}')
+        # Print the curren
         get_dealer_hand_sum(dealer_hand)
         get_player_hand_sum(player_hand)
         
-        
+        tie = check_tie(player_hand,dealer_hand)
+
+        if (tie != 'NA'):
+            return tie
 
         choice = input("Player do you want to stay or hit? ")
 
@@ -114,10 +124,12 @@ def play_blackjack():
 
                 deal_card(dealer_hand)
 
+                get_dealer_hand_sum(dealer_hand)
+
                 twenty_one = check_21(player_hand, dealer_hand)
 
                 if twenty_one != 'NA':
-                    return twenty_one
+                    print(twenty_one)
 
                 get_dealer_hand_sum(dealer_hand)
 
@@ -143,8 +155,17 @@ def play_blackjack():
 
             if (check_player_bust(player_hand)):
                     print('Player Busted! Dealer wins.')
-                    get_player_hand_sum(player_hand)
                     play = False
+
+    play_again = input('Play again? (yes/no) ').lower()
+    
+    while play_again not in ['yes','no']:
+        print('Try again')
+        play_again = input('Play again? (yes/no) ').lower()
+    if play_again  == 'yes':
+        play_blackjack()
+    else: 
+        return False
 
 
 
@@ -153,6 +174,4 @@ def play_blackjack():
     
 
 
-
-
-                                  
+play_blackjack()
