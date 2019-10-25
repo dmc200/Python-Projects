@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<pyshell#19>", line 2, in <module>
+Exception: this is the error message.
+Traceback (most recent call last):
+  File "<pyshell#29>", line 2, in <module>
+Exception: this is the error message.
